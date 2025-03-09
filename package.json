@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "@types/next": "^8.0.7",
+    "@types/react": "^19.0.10"
+  },
+  "dependencies": {
+    "next": "^15.2.1"
+  }
+}

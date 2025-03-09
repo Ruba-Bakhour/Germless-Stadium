@@ -55,7 +55,7 @@ export default function Home() {
 
     checkUser();
 
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange((event: any, session: any) => {
       console.log("Auth State Changed:", event, session);
       if (!session) {
         router.push('/login');
@@ -104,7 +104,7 @@ export default function Home() {
                     <path d="M43.5 26.6V43L51.8 51.2" stroke="#141B34" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
-                <span className="text-4xl text-gray-900 ml-8">Schedule Disinfection</span>
+                <span className="text-4xl text-gray-900 ml-8" onClick={() => router.push('/Schedule-Disinfection')}>Schedule Disinfection</span>
               </button>
 
               {/* Display Reports */}
@@ -114,7 +114,7 @@ export default function Home() {
                     <path fillRule="evenodd" clipRule="evenodd" d="M15.1944 0.444458C14.6422 0.444458 14.1944 0.892173 14.1944 1.44446C14.1944 1.99674 14.6422 2.44446 15.1944 2.44446H38.0695L47.322 12.4297L47.6189 12.75H48.0556H84.9722V83.8889C84.9722 84.4412 85.4199 84.8889 85.9722 84.8889C86.5245 84.8889 86.9722 84.4412 86.9722 83.8889V12.75C86.9722 11.6454 86.0768 10.75 84.9722 10.75H48.4922L39.5365 1.08509C39.158 0.676625 38.6263 0.444458 38.0695 0.444458H15.1944ZM38.9649 30.7312L39.5627 31.4167H40.4722H68.8055V99.5556H2.02777V21.1111H30.5751L38.9649 30.7312ZM31.7835 19.4538L40.4722 29.4167H69.8055C70.3578 29.4167 70.8055 29.8644 70.8055 30.4167V100.556C70.8055 101.108 70.3578 101.556 69.8055 101.556H1.02777C0.475487 101.556 0.027771 101.108 0.027771 100.556V20.1111C0.027771 19.5588 0.475486 19.1111 1.02777 19.1111H31.0298C31.3187 19.1111 31.5936 19.2361 31.7835 19.4538Z" fill="#222222"/>
                   </svg>
                 </div>
-                <span className="text-4xl text-gray-900 ml-8">Display Disinfection Reports</span>
+                <span className="text-4xl text-gray-900 ml-8" onClick={() => router.push('/ReportPage')}>Display Disinfection Reports</span>
               </button>
             </div>
           </div>
