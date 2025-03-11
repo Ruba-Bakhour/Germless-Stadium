@@ -8,7 +8,7 @@ const Schedule = () => {
   return (
     <>
       {/* Header */}
-      <div className="flex items-center bg-blue-600 p-4">
+      <div className="flex items-center bg-blue-500 p-4">
         <button className="border-none text-2xl cursor-pointer mr-4" onClick={() => router.back()}        >←</button>
         <h2 className="text-2xl flex-grow font-bold text-white">
           Schedule Disinfection Process
