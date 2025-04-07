@@ -25,20 +25,27 @@ const Schedule = () => {
           {/* Date and Time Section */}
           <div className="w-1/2 p-5 border border-gray-300 rounded-lg bg-white">
             <h3 className="text-gray-600 mb-3 font-semibold">Date and Time</h3>
-            <input
-              type="text"
-              placeholder="Start time"
-              className="text-gray-600 block w-full p-2 mb-3 border border-gray-400 rounded"
-            />
-            <input
-              type="text"
-              placeholder="End time"
-              className="text-gray-600 block w-full p-2 mb-3 border border-gray-400 rounded"
-            />
+            <div className="mb-3">
+           <label className="text-sm text-gray-500 mb-1 block">Start time</label>
+          <input
+            type="time"
+             className="text-gray-600 block w-full p-2 border border-gray-400 rounded"
+             />
+          </div>
+          <div className="mb-3">
+           <label className="text-sm text-gray-500 mb-1 block">End time</label>
+           <input
+            type="time"
+             className="text-gray-600 block w-full p-2 border border-gray-400 rounded"
+              />
+            </div>
+            <div className="mb-3">
+            <label className="text-sm text-gray-500 mb-1 block">Date</label>
             <input
               type="date"
               className="text-gray-600 block w-full p-2 mb-3 border border-gray-400 rounded"
             />
+            </div>
             <button className="w-full bg-black text-white p-2 rounded cursor-pointer">
               Schedule
             </button>
