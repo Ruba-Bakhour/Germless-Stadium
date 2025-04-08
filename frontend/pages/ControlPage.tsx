@@ -3,10 +3,9 @@
 import router from 'next/router';
 
 const ControlPage = () => {
-
   const moveDrone = async (direction: string) => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/api/drone/move', { // Update to Flask API URL
+      const response = await fetch('http://127.0.0.1:5000/api/drone/move', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -24,7 +23,7 @@ const ControlPage = () => {
       console.error('Error moving the drone:', error);
     }
   };
-  
+
   return (
     <>
       {/* Header */}
@@ -36,28 +35,36 @@ const ControlPage = () => {
 
       {/* Content */}
       <div className="min-h-screen bg-blue-100 p-6 font-sans flex items-center justify-center">
-        <div className="flex flex-col items-center gap-10">
-          {/* Front Button */}
-          <button className="bg-white text-black px-8 py-4 rounded-md shadow hover:bg-gray-200 text-lg"onClick={() => moveDrone('forward')}>
-            ↑ Front
-          </button>
-
-          <div className="flex gap-20">
-            {/* Left Button */}
-            <button className="bg-white text-black px-8 py-4 rounded-md shadow hover:bg-gray-200 text-lg"onClick={() => moveDrone('left')}>
-              ← Left
+        <div className="flex w-full justify-around items-center">
+          {/* Left side - Movement Controls */}
+          <div className="flex flex-col items-center gap-10">
+            <button className="bg-white text-black px-8 py-4 rounded-md shadow hover:bg-gray-200 text-lg" onClick={() => moveDrone('forward')}>
+              ↑ Front
             </button>
 
-            {/* Right Button */}
-            <button className="bg-white text-black px-8 py-4 rounded-md shadow hover:bg-gray-200 text-lg"onClick={() => moveDrone('right')}>
-            Right →
+            <div className="flex gap-20">
+              <button className="bg-white text-black px-8 py-4 rounded-md shadow hover:bg-gray-200 text-lg" onClick={() => moveDrone('left')}>
+                ← Left
+              </button>
+              <button className="bg-white text-black px-8 py-4 rounded-md shadow hover:bg-gray-200 text-lg" onClick={() => moveDrone('right')}>
+                Right →
+              </button>
+            </div>
+
+            <button className="bg-white text-black px-8 py-4 rounded-md shadow hover:bg-gray-200 text-lg" onClick={() => moveDrone('backward')}>
+              ↓ Back
             </button>
           </div>
 
-          {/* Down Button */}
-          <button className="bg-white text-black px-8 py-4 rounded-md shadow hover:bg-gray-200 text-lg mt-4"onClick={() => moveDrone('backward')}>
-            ↓ Back
-          </button>
+          {/* Right side - Takeoff and Land */}
+          <div className="flex flex-col gap-10 items-center">
+            <button className="bg-green-500 text-white px-8 py-4 rounded-md shadow hover:bg-green-600 text-lg" onClick={() => moveDrone('???')}>
+              ⬆️ Takeoff
+            </button>
+            <button className="bg-red-500 text-white px-8 py-4 rounded-md shadow hover:bg-red-600 text-lg" onClick={() => moveDrone('???')}> 
+              ⬇️ Land
+            </button>
+          </div>
         </div>
       </div>
     </>
