@@ -1,4 +1,6 @@
 from datetime import date 
+from ultralytics import YOLO  # Import YOLO library
+
 
 class drone:
     def __init__(self, drone_id: str, distance: int, disinfection_time: int):
@@ -6,6 +8,8 @@ class drone:
         self.distance = distance
         self.disinfection_time = disinfection_time
         self.seat_count = 0
+        self.model = YOLO("C:/Users/L/Germless-Stadium/backend/trainYolo/runs/detect/train5/weights/last.pt")  # Load a pre-trained YOLO model (replace with your model path) 
+
 
     
     def disinfect_seats(self):
@@ -18,9 +22,21 @@ class drone:
         print(f"Drone {self.drone_id} is navigating...")
 
     def detect_seats(self) -> bool:
-        #call the yolo model 
+        # Code to detect seats using YOLO model
+        # Load the YOLO model and perform detection
         print(f"Drone {self.drone_id} is detecting seats...")
-        return True
+        results = self.model("path/to/your/image.jpg")  # Replace with the path to your image or video frame
+        seats_detected = 0
+
+        # Process the results to count seats
+        for result in results:
+            for box in result.boxes:
+                if box.cls == "chair":  # Assuming "chair" is the class name for seats in your model
+                    seats_detected += 1
+
+        self.seat_count = seats_detected
+        print(f"Detected {self.seat_count} seats.")
+        return seats_detected > 0
     
     def start_drone(self):
         #our code or call to start the drone
