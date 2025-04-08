@@ -43,6 +43,9 @@ class drone:
         print(f"Drone {self.drone_id} is starting...")
 
     def num_of_seats(self) -> int:
-        #code for calculating the seats 
-        print(f"Drone {self.drone_id} has processed {self.seat_count} seats.")
-        return self.seat_count
+       # Ensure the seat count is updated before returning
+      if self.detect_seats():
+          print(f"Drone {self.drone_id} has processed {self.seat_count} seats.")
+      else:
+            print(f"Drone {self.drone_id} could not detect any seats.")
+      return self.seat_count
