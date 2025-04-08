@@ -25,7 +25,7 @@ class drone:
         # Code to detect seats using YOLO model
         # Load the YOLO model and perform detection
         print(f"Drone {self.drone_id} is detecting seats...")
-        results = self.model("path/to/your/image.jpg")  # Replace with the path to your image or video frame
+        results = self.model("C:/Users/L/Germless-Stadium/backend/trainYolo/test/images (2).jpg")  # Replace with the path to your image or video frame
         seats_detected = 0
 
         # Process the results to count seats
