@@ -17,7 +17,7 @@ const ControlPage = () => {
         <div className="flex flex-col items-center gap-10">
           {/* Front Button */}
           <button className="bg-white text-black px-8 py-4 rounded-md shadow hover:bg-gray-200 text-lg">
-            ↑ Fornt
+            ↑ Front
           </button>
 
           <div className="flex gap-20">
