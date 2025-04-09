@@ -35,7 +35,7 @@ const ControlPage = () => {
 
       {/* Content */}
       <div className="min-h-screen bg-blue-100 p-6 font-sans flex items-center justify-center">
-        <div className="flex w-full justify-around items-center">
+        <div className="flex w-full justify-around items-center gap-10">
           {/* Left side - Movement Controls */}
           <div className="flex flex-col items-center gap-10">
             <button className="bg-white text-black px-8 py-4 rounded-md shadow hover:bg-gray-200 text-lg" onClick={() => moveDrone('forward')}>
@@ -56,12 +56,21 @@ const ControlPage = () => {
             </button>
           </div>
 
+          {/* Middle - Live Stream */}
+          <div className="bg-black rounded-md overflow-hidden shadow-md">
+            <img
+              src="" // Update this URL if needed ??? -- Here Change !!
+              alt="Drone Livestream"
+              className="w-[480px] h-[360px] object-cover border border-gray-300"
+            />
+          </div>
+
           {/* Right side - Takeoff and Land */}
           <div className="flex flex-col gap-10 items-center">
-            <button className="bg-green-500 text-white px-8 py-4 rounded-md shadow hover:bg-green-600 text-lg" onClick={() => moveDrone('???')}>
+            <button className="bg-green-500 text-white px-8 py-4 rounded-md shadow hover:bg-green-600 text-lg" onClick={() => moveDrone('???')}> 
               ⬆️ Takeoff
-            </button>
-            <button className="bg-red-500 text-white px-8 py-4 rounded-md shadow hover:bg-red-600 text-lg" onClick={() => moveDrone('???')}> 
+            </button> 
+            <button className="bg-red-500 text-white px-8 py-4 rounded-md shadow hover:bg-red-600 text-lg" onClick={() => moveDrone('???')}>
               ⬇️ Land
             </button>
           </div>
@@ -72,3 +81,4 @@ const ControlPage = () => {
 };
 
 export default ControlPage;
+
