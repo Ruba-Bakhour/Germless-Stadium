@@ -59,7 +59,7 @@ const ControlPage = () => {
           {/* Middle - Live Stream */}
           <div className="bg-black rounded-md overflow-hidden shadow-md">
             <img
-              src="" // Update this URL if needed ??? -- Here Change !!
+              src="http://127.0.0.1:5000/video_feed"
               alt="Drone Livestream"
               className="w-[480px] h-[360px] object-cover border border-gray-300"
             />
