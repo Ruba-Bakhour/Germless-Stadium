@@ -67,10 +67,10 @@ const ControlPage = () => {
 
           {/* Right side - Takeoff and Land */}
           <div className="flex flex-col gap-10 items-center">
-            <button className="bg-green-500 text-white px-8 py-4 rounded-md shadow hover:bg-green-600 text-lg" onClick={() => moveDrone('???')}> 
+            <button className="bg-green-500 text-white px-8 py-4 rounded-md shadow hover:bg-green-600 text-lg" onClick={() => moveDrone('takeoff')}> 
               ⬆️ Takeoff
             </button> 
-            <button className="bg-red-500 text-white px-8 py-4 rounded-md shadow hover:bg-red-600 text-lg" onClick={() => moveDrone('???')}>
+            <button className="bg-red-500 text-white px-8 py-4 rounded-md shadow hover:bg-red-600 text-lg" onClick={() => moveDrone('land')}>
               ⬇️ Land
             </button>
           </div>

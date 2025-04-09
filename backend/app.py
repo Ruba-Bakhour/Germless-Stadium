@@ -1,8 +1,6 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
 
 @app.route('/api/drone/move', methods=['POST'])
 def move_drone():
@@ -14,8 +12,7 @@ def move_drone():
     direction = data['direction']
     print(f"Moving drone {direction}")
 
-    # Add your logic to communicate with the drone here
-    # For example, send commands to the drone's control system
+    # Add your drone control logic here
 
     return jsonify({'success': True, 'message': f'Drone moved {direction}'})
 
