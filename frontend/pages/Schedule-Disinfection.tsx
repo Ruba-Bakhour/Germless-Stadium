@@ -112,7 +112,7 @@ const Schedule = () => {
             <h3 className="text-gray-600 mb-3 font-semibold">Route Specification</h3>
             <label className="block w-full cursor-pointer">
               <input type="file" className="hidden" />
-              <div className="text-gray-600 w-full h-36 bg-gray-200 flex justify-center items-center rounded-lg border-2 border-dashed border-gray-400 text-gray-600 transition hover:bg-gray-300">
+              <div className="text-gray-600 w-full h-80 bg-gray-200 flex justify-center items-center rounded-lg border-2 border-dashed border-gray-400 text-gray-600 transition hover:bg-gray-300">
                 📷 Click to upload an image
               </div>
             </label>
