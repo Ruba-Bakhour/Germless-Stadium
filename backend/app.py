@@ -1,17 +1,21 @@
 from flask import Flask, request, jsonify, Response
+from flask_cors import CORS
+
 import cv2
 import time
 from ultralytics import YOLO
 
 app = Flask(__name__)
+CORS(app)
+
 
 # Load your trained YOLO model
 model_path = "C:/Users/L/Germless-Stadium/backend/trainYolo/runs/detect/train5/weights/last.pt"
 model = YOLO(model_path)
-threshold = 0.1
+threshold = 0.4
 
 # Open the video file (replace with 0 if using webcam)
-video_path = "C:/Users/L/Downloads/youtube_Mi9kUQbC2KM_1080x1920_h264_mute.mp4"
+video_path = "C:/Users/L/Downloads/video6034988547679721517.mp4"
 cap = cv2.VideoCapture(video_path)
 
 # --------------------- Drone Movement ---------------------
@@ -69,4 +73,5 @@ def video_feed():
 
 # --------------------- Run ---------------------
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, threaded=True)
+
