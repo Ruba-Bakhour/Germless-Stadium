@@ -13,8 +13,16 @@ class drone:
 
     
     def disinfect_seats(self):
-        #our code or call to start the disinfection process 
-        print(f"Drone {self.drone_id} is disinfecting seats...")
+        if self.seat_count == 0:
+            print(f"Drone {self.drone_id} cannot disinfect as no seats were detected.")
+            return
+
+        print(f"Drone {self.drone_id} is starting the disinfection process...")
+        for seat in range(self.seat_count):
+            print(f"Disinfecting seat {seat + 1} of {self.seat_count}...")
+            # Simulate disinfection process activate UV light 
+            # Add actual disinfection logic here (stop drone movment for x seconds)
+        print(f"Drone {self.drone_id} has completed disinfection of {self.seat_count} seats.")
 
 
     def navigate(self):
