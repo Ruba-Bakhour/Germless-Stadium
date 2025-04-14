@@ -79,7 +79,7 @@ export default function Home() {
   }, [router]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-blue-500">
+    <div className="min-h-screen flex flex-col bg-blue-500 overflow-x-auto">
       {/* Header */}
       <header className="w-full h-16 bg-blue-500 shadow-md p-4 flex justify-between items-center">
         <div className="text-2xl font-bold text-white">Germless Stadium</div>
@@ -91,7 +91,7 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col justify-center items-center px-12 bg-blue-100 w-full">
+      <div className="flex-1 flex flex-col justify-center items-center px-12 bg-blue-100 w-full overflow-x-auto">
         {loading ? (
           <p className="text-lg text-gray-600 flex items-center justify-center min-h-[60vh]">Loading...</p>
         ) : user ? (
