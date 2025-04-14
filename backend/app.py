@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 
@@ -11,11 +12,11 @@ CORS(app)
 
 # Load your trained YOLO model
 model_path = "C:/Users/L/Germless-Stadium/backend/trainYolo/runs/detect/train5/weights/last.pt"
+video_path = "C:/Users/L/Germless-Stadium/backend/trainYolo/test/video6034988547679721517.mp4"
 model = YOLO(model_path)
 threshold = 0.4
 
 # Open the video file (replace with 0 if using webcam)
-video_path = "C:/Users/L/Downloads/video6034988547679721517.mp4"
 cap = cv2.VideoCapture(video_path)
 
 # --------------------- Drone Movement ---------------------
