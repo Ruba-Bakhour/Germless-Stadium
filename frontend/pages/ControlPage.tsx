@@ -27,7 +27,7 @@ const ControlPage = () => {
   return (
     <>
       {/* Header */}
-      <div className="flex justify-between items-center bg-blue-600 p-4 text-white">
+      <div className="flex justify-between items-center bg-blue-500 p-4 text-white">
         <button className="border-none text-2xl cursor-pointer mr-4" onClick={() => router.back()}>←</button>
         <h2 className="text-2xl flex-grow font-bold text-white">Drone Remote Control</h2>
         <button className="bg-white text-gray-900 px-4 py-2 rounded-md hover:bg-gray-300">Log out</button>
