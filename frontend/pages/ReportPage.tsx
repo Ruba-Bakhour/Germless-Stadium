@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from './supabaseClient';
 import router from 'next/router';
-
+import  Header  from './Header';
 interface Report {
   id: string;
   title: string;
@@ -70,11 +70,7 @@ const ReportsPage = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center bg-blue-500 p-4 text-white">
-        <button className="border-none text-2xl cursor-pointer mr-4" onClick={() => router.back()}>←</button>
-        <h2 className="text-2xl flex-grow font-bold text-white">Display Disinfection Reports</h2>
-        <button className="bg-white text-gray-900 px-4 py-2 rounded-md hover:bg-gray-300">Log out</button>
-         </div>
+      <Header showBackButton={true} title="Display Disinfection Reports" />
 
       <div className="min-h-screen bg-blue-100 p-6 font-sans">
         <div className="flex gap-6 mt-4">
