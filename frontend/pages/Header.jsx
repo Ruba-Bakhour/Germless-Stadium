@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { supabase } from '../supabaseClient'; // Adjust the path if needed
+import { supabase } from './supabaseClient'; // Adjust the path if needed
 
 const Header = ({ showBackButton = false, title = "Germless Stadium" }) => {
   const router = useRouter();
