@@ -4,21 +4,52 @@ import React, { useState } from "react";
 import router from 'next/router';
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Header from './Header';
+import blueprint from '../assets/images/Blueprint.png';
+
+const sectionOptions = ["All", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 
 const Schedule = () => {
   const supabase = createClientComponentClient();
 
   const [startTime, setStartTime] = useState("");
   const [date, setDate] = useState("");
-  const [section, setSection] = useState("");
+  const [selectedSections, setSelectedSections] = useState<string[]>([]);
   const [battery, setBattery] = useState("");
   const [auto, setAuto] = useState(false);
   const [message, setMessage] = useState("");
 
+  const handleSectionChange = (section: string) => {
+    if (section === "All") {
+      // If "All" is selected, toggle all sections
+      if (selectedSections.includes("All")) {
+        setSelectedSections([]);
+      } else {
+        setSelectedSections(sectionOptions);
+      }
+    } else {
+      // Toggle individual sections
+      const updatedSections = selectedSections.includes(section)
+        ? selectedSections.filter((s) => s !== section)
+        : [...selectedSections, section];
+
+      // If all sections are selected, include "All"
+      if (updatedSections.length === sectionOptions.length - 1 && !updatedSections.includes("All")) {
+        updatedSections.push("All");
+      }
+
+      // If "All" is unchecked, remove it
+      if (updatedSections.includes("All") && updatedSections.length < sectionOptions.length) {
+        updatedSections.splice(updatedSections.indexOf("All"), 1);
+      }
+
+      setSelectedSections(updatedSections);
+    }
+  };
+
   const handleSchedule = async () => {
     console.log("Schedule button clicked");
 
-    if (!startTime || !date || !section || !battery) {
+    if (!startTime || !date || selectedSections.length === 0 || !battery) {
       setMessage("Please fill in all fields.");
       return;
     }
@@ -28,7 +59,7 @@ const Schedule = () => {
         {
           Date: date,
           StartTime: startTime,
-          Section: section,
+          Section: selectedSections.join(", "),
           Battery: battery,
           Auto: auto,
         },
@@ -42,7 +73,7 @@ const Schedule = () => {
         setMessage("Scheduled successfully!");
         setStartTime("");
         setDate("");
-        setSection("");
+        setSelectedSections([]);
         setBattery("");
         setAuto(false);
       }
@@ -86,12 +117,19 @@ const Schedule = () => {
 
             <div className="mb-3">
               <label className="text-sm text-gray-500 mb-1 block">Section</label>
-              <input
-                type="text"
-                value={section}
-                onChange={(e) => setSection(e.target.value)}
-                className="text-gray-600 block w-full p-2 border border-gray-400 rounded"
-              />
+              <div className="grid grid-cols-3 gap-2">
+                {sectionOptions.map((section) => (
+                  <label key={section} className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={selectedSections.includes(section)}
+                      onChange={() => handleSectionChange(section)}
+                      className="mr-2"
+                    />
+                    <span className="text-gray-600">{section}</span>
+                  </label>
+                ))}
+              </div>
             </div>
 
             <div className="mb-3">
@@ -105,15 +143,31 @@ const Schedule = () => {
             </div>
 
             <div className="mb-3">
-              <label className="text-sm text-gray-500 mb-1 block">Auto</label>
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={auto}
-                  onChange={() => setAuto(!auto)}
-                  className="mr-2 w-5 h-5"
-                />
-                <span className="text-gray-600">{auto ? "Enabled" : "Disabled"}</span>
+              <label className="text-sm text-gray-500 mb-1 block">Automated Cleaning</label>
+              <div className="flex items-center gap-6">
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="automated-cleaning"
+                    value="enabled"
+                    checked={auto === true}
+                    onChange={() => setAuto(true)}
+                    className="mr-2 w-5 h-5"
+                  />
+                  <span className="text-gray-600">Enabled</span>
+                </label>
+
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="automated-cleaning"
+                    value="disabled"
+                    checked={auto === false}
+                    onChange={() => setAuto(false)}
+                    className="mr-2 w-5 h-5"
+                  />
+                  <span className="text-gray-600">Disabled</span>
+                </label>
               </div>
             </div>
 
@@ -127,15 +181,17 @@ const Schedule = () => {
             {message && <p className="text-sm mt-2 text-center text-red-600">{message}</p>}
           </div>
 
-          {/* Route Specification Section */}
+          {/* Stadium Areas Section */}
           <div className="w-1/2 p-5 border border-gray-300 rounded-lg bg-white">
             <h3 className="text-gray-600 mb-3 font-semibold">Stadium Areas</h3>
-            <label className="block w-full cursor-pointer">
-              <input type="file" className="hidden" />
-              <div className="text-gray-600 w-full h-80 bg-gray-200 flex justify-center items-center rounded-lg border-2 border-dashed border-gray-400 text-gray-600 transition hover:bg-gray-300">
-                📷 Click to upload an image
-              </div>
-            </label>
+            <div className="block w-full">
+              <img
+                src={blueprint.src}
+                alt="Blueprint preview"
+                className="w-full h-full object-cover rounded-lg border-2 border-dashed border-gray-400"
+              />
+            </div>
+
           </div>
         </div>
       </div>
