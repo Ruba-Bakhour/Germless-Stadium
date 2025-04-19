@@ -55,7 +55,7 @@ const ReportsPage = () => {
     const reportData = `
       Report Title: ${report.title}
       Date and Time: ${report.created_at}
-      Total Disinfected Seats: ${report.total_seats} seats
+      Total Ready Seats: ${report.total_seats} seats
       Total Distance: ${report.distance}
     `;
 
@@ -104,7 +104,7 @@ const ReportsPage = () => {
               <>
                 <h3 className="text-gray-600 text-lg font-bold mb-3">{selectedReport.title}</h3>
                 <p className="text-gray-600 text-sm mb-2"><strong>Date and Time:</strong> {selectedReport.created_at}</p>
-                <p className="text-gray-600 text-sm mb-2"><strong>Total Disinfected seats:</strong> {selectedReport.total_seats} seats</p>
+                <p className="text-gray-600 text-sm mb-2"><strong>Total Ready seats:</strong> {selectedReport.total_seats} seats</p>
                 <p className="text-gray-600 text-sm mb-2"><strong>Total Distance:</strong> {selectedReport.distance}</p>
                 <div className="mt-3 flex gap-2">
                   <button className="text-gray-600 px-4 py-2 bg-white border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200">Analyzed images</button>
