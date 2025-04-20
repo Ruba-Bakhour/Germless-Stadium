@@ -90,7 +90,7 @@ const Schedule = () => {
 
       {/* Main Container */}
       <div className="min-h-screen bg-blue-100 p-6 font-sans">
-        <div className="flex justify-between gap-5 mt-32">
+        <div className="flex justify-between gap-5 mt-10">
           {/* Date and Time Section */}
           <div className="w-1/2 p-5 border border-gray-300 rounded-lg bg-white">
             <h3 className="text-gray-600 mb-3 font-semibold">Date and Time</h3>
