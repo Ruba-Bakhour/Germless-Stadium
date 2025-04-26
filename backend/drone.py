@@ -65,6 +65,7 @@ class drone:
         # Step 3: Complete operation
         print(f"Drone {self.drone_id} has completed its operation.")
         
+        
 
 def num_of_seats(self) -> int:
     # Call the detect_seats method to get the number of seats detected

@@ -11,8 +11,8 @@ CORS(app)
 
 
 # Load your trained YOLO model
-model_path = "C:/Users/L/Germless-Stadium/backend/trainYolo/runs/detect/train5/weights/last.pt"
-video_path = "C:/Users/L/Germless-Stadium/backend/trainYolo/test/oM2J9YjeIzPvYfqHxn5gSAUBDpeViACXzQAgqA.mp4"
+model_path = "C:/Users/lojai/Germless-Stadium/backend/trainYolo/runs/detect/train5/weights/last.pt"
+video_path = "C:/Users/lojai/Germless-Stadium/backend/trainYolo/test/oM2J9YjeIzPvYfqHxn5gSAUBDpeViACXzQAgqA.mp4"
 model = YOLO(model_path)
 threshold = 0.4
 
@@ -30,15 +30,15 @@ def move_drone():
     print(f"Moving drone {direction}")
     return jsonify({'success': True, 'message': f'Drone moved {direction}'})
 
+    if direction == 'disinfect':
+        drone.start()
+        return jsonify({'status': 'Drone started disinfecting'})
+
 
 # --------------------- Video Feed with YOLO ---------------------
 def generate_frames():
     while True:
         success, frame = cap.read()
-        if not success:
-            cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
-            continue
-
         # Resize for performance
         frame = cv2.resize(frame, (480, 360))
 
