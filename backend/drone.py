@@ -11,7 +11,6 @@ class drone:
         self.model = YOLO("C:/Users/L/Germless-Stadium/backend/trainYolo/runs/detect/train5/weights/last.pt")  # Load a pre-trained YOLO model (replace with your model path) 
 
 
-    
     def disinfect_seats(self):
         if self.seat_count == 0:
             print(f"Drone {self.drone_id} cannot disinfect as no seats were detected.")
@@ -20,38 +19,50 @@ class drone:
         print(f"Drone {self.drone_id} is starting the disinfection process...")
         for seat in range(self.seat_count):
             print(f"Disinfecting seat {seat + 1} of {self.seat_count}...")
-            # Simulate disinfection process activate UV light 
-            # Add actual disinfection logic here (stop drone movment for x seconds)
+            # Simulate stopping the drone's movement for 10 seconds
+            print(f"Drone {self.drone_id} is stopping for disinfection...")
+            time.sleep(10)  # Stop for 10 seconds to simulate disinfection
+            print(f"Disinfection of seat {seat + 1} completed.")
         print(f"Drone {self.drone_id} has completed disinfection of {self.seat_count} seats.")
 
-
-    def navigate(self):
-        #our code or call to start the navigation process
-        print(f"Drone {self.drone_id} is navigating...")
 
     def detect_seats(self) -> bool:
         # Code to detect seats using YOLO model
         # Load the YOLO model and perform detection
         print(f"Drone {self.drone_id} is detecting seats...")
-        results = self.model("C:/Users/L/Germless-Stadium/backend/trainYolo/test/images (2).jpg")  # Replace with the path to your image or video frame
+        results = self.model("C:/Users/L/Germless-Stadium/backend/trainYolo/test/oM2J9YjeIzPvYfqHxn5gSAUBDpeViACXzQAgqA.mp4") 
         seats_detected = 0
 
         # Process the results to count seats
         for result in results:
             for box in result.boxes:
-                if box.cls == "chair":  # Assuming "chair" is the class name for seats in your model
+                if box.cls == "chair":  #  "chair" is the class name for seats in your model
                     seats_detected += 1
 
         self.seat_count = seats_detected
         print(f"Detected {self.seat_count} seats.")
         return seats_detected > 0
     
-    def start_drone(self):
-        #our code or call to start the drone
+
+    def start(self):
         print(f"Drone {self.drone_id} is starting...")
+    
+        # Step 1: Detect seats
+        print("Detecting seats...")
+        if not self.detect_seats():
+            print(f"Drone {self.drone_id} could not detect any seats. Aborting operation.")
+            return
+    
+        # Step 2: Start disinfection process
+        print(f"Drone {self.drone_id} detected {self.seat_count} seats. Starting disinfection process...")
+        self.disinfect_seats()
+    
+        # Step 3: Complete operation
+        print(f"Drone {self.drone_id} has completed its operation.")
+        
 
     def num_of_seats(self) -> int:
-       # Ensure the seat count is updated before returning
+        # Call the detect_seats method to get the number of seats detected
       if self.detect_seats():
           print(f"Drone {self.drone_id} has processed {self.seat_count} seats.")
       else:
