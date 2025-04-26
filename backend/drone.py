@@ -1,6 +1,11 @@
 from datetime import date 
-from ultralytics import YOLO  # Import YOLO library
+from ultralytics import YOLO  
+from supabase import create_client, Client  
 
+# Supabase client
+url = "https://umblwntwmhxwempxdrfm.supabase.co"
+key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVtYmx3bnR3bWh4d2VtcHhkcmZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk4NzU5NDgsImV4cCI6MjA1NTQ1MTk0OH0.SNhe6JMa7n0zm3gUjTVtST76CYp_Zl9oI868IHJtvJ4"
+supabase: Client = create_client(url, key)
 
 class drone:
     def __init__(self, drone_id: str, distance: int, disinfection_time: int):
@@ -61,10 +66,25 @@ class drone:
         print(f"Drone {self.drone_id} has completed its operation.")
         
 
-    def num_of_seats(self) -> int:
-        # Call the detect_seats method to get the number of seats detected
-      if self.detect_seats():
-          print(f"Drone {self.drone_id} has processed {self.seat_count} seats.")
-      else:
-            print(f"Drone {self.drone_id} could not detect any seats.")
-      return self.seat_count
+def num_of_seats(self) -> int:
+    # Call the detect_seats method to get the number of seats detected
+    if self.detect_seats():
+        print(f"Drone {self.drone_id} has processed {self.seat_count} seats.")
+
+        data = {
+            "total_seats": self.seat_count,
+            "distance": null,  # Placeholder for distance
+            "User-ID": "db4e5bab-60e4-4ec7-9ef4-02aa7cb3aef2",  
+            "title": "Report - "+datetime.now().isoformat()  
+        }
+        response = supabase.table("Report").insert(data).execute()
+
+        if response.status_code == 201:
+            print("Data successfully inserted into Supabase.")
+        else:
+            print("Failed to insert data into Supabase.", response)
+
+    else:
+        print(f"Drone {self.drone_id} could not detect any seats.")
+
+    return self.seat_count  # Corrected indentation
