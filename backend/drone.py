@@ -64,6 +64,10 @@ class drone:
     
         # Step 3: Complete operation
         print(f"Drone {self.drone_id} has completed its operation.")
+          
+        # Step 4: Store the seat count in the database
+        print("Storing the seat count in the database...")
+        self.num_of_seats()
         
         
 

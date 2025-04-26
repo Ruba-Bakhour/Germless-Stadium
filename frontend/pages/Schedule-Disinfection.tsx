@@ -133,14 +133,23 @@ const Schedule = () => {
             </div>
 
             <div className="mb-3">
-              <label className="text-sm text-gray-500 mb-1 block">Battery</label>
-              <input
-                type="text"
-                value={battery}
-                onChange={(e) => setBattery(e.target.value)}
-                className="text-gray-600 block w-full p-2 border border-gray-400 rounded"
-              />
-            </div>
+            <label className="text-sm text-gray-500 mb-1 block">Battery</label>
+            <input
+              type="text"
+              value={battery}
+              onChange={(e) => {
+                const input = e.target.value;
+                if (/^\d*$/.test(input)) { // Only allow numbers (digits)
+                  setBattery(input);
+                  setMessage(""); // Clear any previous error message
+                } else {
+                  setMessage("Please enter numbers only for the battery.");
+                }
+              }}
+              className="text-gray-600 block w-full p-2 border border-gray-400 rounded"
+            />
+           </div>
+
 
             <div className="mb-3">
               <label className="text-sm text-gray-500 mb-1 block">Automated Cleaning</label>
