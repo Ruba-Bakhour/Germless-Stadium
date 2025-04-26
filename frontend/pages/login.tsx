@@ -33,14 +33,6 @@ export default function Login() {
       {/* Header */}
       <header className="flex justify-between items-center p-4 shadow-md bg-blue-500">
         <div className="text-2xl font-bold text-white invisible">Germless Stadium</div>
-        <div className="left space-x-2">
-          <button className="px-4 py-2 bg-white border rounded-md text-gray-700 hover:bg-gray-100" onClick={() => router.push('/login')}>
-            Sign In
-          </button>
-          <button className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800" onClick={() => router.push('/register')}>
-            Register
-          </button>
-        </div>
       </header>
 
       {/* Main Content */}
