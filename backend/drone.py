@@ -7,13 +7,13 @@ url = "https://umblwntwmhxwempxdrfm.supabase.co"
 key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVtYmx3bnR3bWh4d2VtcHhkcmZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk4NzU5NDgsImV4cCI6MjA1NTQ1MTk0OH0.SNhe6JMa7n0zm3gUjTVtST76CYp_Zl9oI868IHJtvJ4"
 supabase: Client = create_client(url, key)
 
-class drone:
+class Drone:
     def __init__(self, drone_id: str, distance: int, disinfection_time: int):
         self.drone_id = drone_id
         self.distance = distance
         self.disinfection_time = disinfection_time
         self.seat_count = 0
-        self.model = YOLO("C:/Users/L/Germless-Stadium/backend/trainYolo/runs/detect/train5/weights/last.pt")  # Load a pre-trained YOLO model (replace with your model path) 
+        self.model = YOLO("C:/Users/lojai/Germless-Stadium/backend/trainYolo/runs/detect/train5/weights/last.pt")  # Load a pre-trained YOLO model (replace with your model path) 
 
 
     def disinfect_seats(self):
@@ -32,21 +32,29 @@ class drone:
 
 
     def detect_seats(self) -> bool:
-        # Code to detect seats using YOLO model
-        # Load the YOLO model and perform detection
         print(f"Drone {self.drone_id} is detecting seats...")
-        results = self.model("C:/Users/L/Germless-Stadium/backend/trainYolo/test/oM2J9YjeIzPvYfqHxn5gSAUBDpeViACXzQAgqA.mp4") 
-        seats_detected = 0
 
-        # Process the results to count seats
+    # Run YOLO on the video
+        results = self.model("C:/Users/lojai/Germless-Stadium/backend/trainYolo/test/oM2J9YjeIzPvYfqHxn5gSAUBDpeViACXzQAgqA.mp4")
+
+        total_chairs = 0
+        chair_class_id = 0  # IMPORTANT: change if your "chair" class ID is different
+
         for result in results:
-            for box in result.boxes:
-                if box.cls == "chair":  #  "chair" is the class name for seats in your model
-                    seats_detected += 1
+            if result.boxes is not None:
+                # Get class IDs of all detections in this frame
+                classes = result.boxes.cls.cpu().numpy()  # get as numpy array
 
-        self.seat_count = seats_detected
-        print(f"Detected {self.seat_count} seats.")
-        return seats_detected > 0
+                # Count how many are chairs (chair_class_id)
+                chairs_in_frame = (classes == chair_class_id).sum()
+
+                total_chairs += chairs_in_frame
+
+        self.seat_count = int(total_chairs)
+        print(f"Total chairs detected in the video: {self.seat_count}")
+    
+        return self.seat_count > 0
+
     
 
     def start(self):
@@ -71,25 +79,25 @@ class drone:
         
         
 
-def num_of_seats(self) -> int:
-    # Call the detect_seats method to get the number of seats detected
-    if self.detect_seats():
-        print(f"Drone {self.drone_id} has processed {self.seat_count} seats.")
+    def num_of_seats(self) -> int:
+        # Call the detect_seats method to get the number of seats detected
+        if self.detect_seats():
+            print(f"Drone {self.drone_id} has processed {self.seat_count} seats.")
 
-        data = {
-            "total_seats": self.seat_count,
-            "distance": null,  # Placeholder for distance
-            "User-ID": "db4e5bab-60e4-4ec7-9ef4-02aa7cb3aef2",  
-            "title": "Report - "+datetime.now().isoformat()  
-        }
-        response = supabase.table("Report").insert(data).execute()
+            data = {
+                "total_seats": self.seat_count,
+                "distance": None,  # Placeholder for distance
+                "User-ID": "db4e5bab-60e4-4ec7-9ef4-02aa7cb3aef2",  
+                "title": "Report - "+datetime.now().isoformat()  
+            }
+            response = supabase.table("Report").insert(data).execute()
 
-        if response.status_code == 201:
-            print("Data successfully inserted into Supabase.")
+            if  response.status_code == 201:
+                print("Data successfully inserted into Supabase.")
+            else:
+                print("Failed to insert data into Supabase.", response)
+
         else:
-            print("Failed to insert data into Supabase.", response)
+            print(f"Drone {self.drone_id} could not detect any seats.")
 
-    else:
-        print(f"Drone {self.drone_id} could not detect any seats.")
-
-    return self.seat_count  # Corrected indentation
+        return self.seat_count  # Corrected indentation
