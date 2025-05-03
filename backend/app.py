@@ -11,8 +11,8 @@ app = Flask(__name__)
 CORS(app)
 
 # Load YOLO model
-model_path = "C:/Users/lojai/Germless-Stadium/backend/trainYolo/runs/detect/train5/weights/last.pt"
-video_path = "C:/Users/lojai/Germless-Stadium/backend/trainYolo/test/oM2J9YjeIzPvYfqHxn5gSAUBDpeViACXzQAgqA.mp4"
+model_path = "C:/Users/L/Germless-Stadium/backend/trainYolo/runs/detect/train5/weights/last.pt"
+video_path = "C:/Users/L/Germless-Stadium/backend/trainYolo/test/video5796392827940247650.mp4"
 model = YOLO(model_path)
 threshold = 0.4
 

@@ -1,4 +1,4 @@
-from datetime import date 
+from datetime import date, datetime 
 from ultralytics import YOLO  
 from supabase import create_client, Client  
 
@@ -13,7 +13,7 @@ class Drone:
         self.distance = distance
         self.disinfection_time = disinfection_time
         self.seat_count = 0
-        self.model = YOLO("C:/Users/lojai/Germless-Stadium/backend/trainYolo/runs/detect/train5/weights/last.pt")  # Load a pre-trained YOLO model (replace with your model path) 
+        self.model = YOLO("C:/Users/L/Germless-Stadium/backend/trainYolo/runs/detect/train5/weights/last.pt")  # Load a pre-trained YOLO model (replace with your model path) 
 
 
     def disinfect_seats(self):
@@ -35,7 +35,7 @@ class Drone:
         print(f"Drone {self.drone_id} is detecting seats...")
 
     # Run YOLO on the video
-        results = self.model("C:/Users/lojai/Germless-Stadium/backend/trainYolo/test/oM2J9YjeIzPvYfqHxn5gSAUBDpeViACXzQAgqA.mp4")
+        results = self.model("C:/Users/L/Germless-Stadium/backend/trainYolo/test/video5796392827940247650.mp4")
 
         total_chairs = 0
         chair_class_id = 0  # IMPORTANT: change if your "chair" class ID is different
