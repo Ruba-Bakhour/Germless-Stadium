@@ -1,6 +1,7 @@
 import os
 from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
+from supabase import create_client, Client
 
 import cv2
 import time
@@ -9,6 +10,11 @@ from drone import Drone
 
 app = Flask(__name__)
 CORS(app)
+
+# Supabase project info
+SUPABASE_URL = 'https://umblwntwmhxwempxdrfm.supabase.co'
+SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVtYmx3bnR3bWh4d2VtcHhkcmZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk4NzU5NDgsImV4cCI6MjA1NTQ1MTk0OH0.SNhe6JMa7n0zm3gUjTVtST76CYp_Zl9oI868IHJtvJ4'
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # Load YOLO model
 model_path = "C:/Users/L/Germless-Stadium/backend/trainYolo/runs/detect/train5/weights/last.pt"
