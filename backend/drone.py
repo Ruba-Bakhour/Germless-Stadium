@@ -38,7 +38,7 @@ class Drone:
         results = self.model("C:/Users/L/Germless-Stadium/backend/trainYolo/test/video5796392827940247650.mp4")
 
         total_chairs = 0
-        chair_class_id = 0  # IMPORTANT: change if your "chair" class ID is different
+        chair_class_id = 0  
 
         for result in results:
             if result.boxes is not None:
