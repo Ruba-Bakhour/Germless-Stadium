@@ -2,151 +2,143 @@ import pytest
 from unittest.mock import patch, MagicMock
 from drone import Drone
 import time
+import numpy as np
 
 
 # ------------------ Tests for start ------------------
 
-@patch('drone.Drone.detect_seats')
-@patch('drone.Drone.disinfect_seats')
-@patch('drone.Drone.num_of_seats')
+@patch.object(Drone, 'detect_seats', return_value=True)
+@patch.object(Drone, 'disinfect_seats')
+@patch.object(Drone, 'num_of_seats')
 def test_start(mock_num_of_seats, mock_disinfect_seats, mock_detect_seats):
-    # Arrange
-    mock_detect_seats.return_value = True  # Simulate seats being detected
     drone = Drone(drone_id="DRONE001", distance=100, disinfection_time=10)
     drone.seat_count = 5  # Simulate 5 seats detected
 
-    # Act
     drone.start()
 
-    # Assert
-    mock_detect_seats.assert_called_once()  # Ensure detect_seats was called
-    mock_disinfect_seats.assert_called_once()  # Ensure disinfect_seats was called
-    mock_num_of_seats.assert_called_once()  # Ensure num_of_seats was called
-    assert drone.seat_count == 5  # Ensure seat_count is correct
+    mock_detect_seats.assert_called_once()
+    mock_disinfect_seats.assert_called_once()
+    mock_num_of_seats.assert_called_once()
+    assert drone.seat_count == 5
 
-@patch('drone.Drone.detect_seats')
-@patch('drone.Drone.disinfect_seats')
-@patch('drone.Drone.num_of_seats')
+
+@patch.object(Drone, 'detect_seats', return_value=True)
+@patch.object(Drone, 'disinfect_seats')
+@patch.object(Drone, 'num_of_seats')
 def test_start_with_invalid_seat_count(mock_num_of_seats, mock_disinfect_seats, mock_detect_seats):
-    # Arrange
-    mock_detect_seats.return_value = True  # Simulate seats being detected
     drone = Drone(drone_id="DRONE001", distance=100, disinfection_time=10)
-    drone.seat_count = -5  # Invalid seat count (negative value)
+    drone.seat_count = -5  # Invalid seat count
 
-    # Act
     drone.start()
 
-    # Assert
-    mock_detect_seats.assert_called_once()  # Ensure detect_seats was called
-    mock_disinfect_seats.assert_not_called()  # Disinfection should not proceed with invalid data
-    mock_num_of_seats.assert_not_called()  # Database insertion should not proceed with invalid data
-    assert drone.seat_count < 0  # Ensure seat_count remains invalid
+    mock_detect_seats.assert_called_once()
+    mock_disinfect_seats.assert_not_called()
+    mock_num_of_seats.assert_not_called()
+    assert drone.seat_count < 0
 
 
-@patch('drone.Drone.detect_seats')
+@patch.object(Drone, 'detect_seats', return_value=False)
 def test_start_no_seats_detected(mock_detect_seats):
-    # Arrange
-    mock_detect_seats.return_value = False  # Simulate no seats detected
     drone = Drone(drone_id="DRONE002", distance=100, disinfection_time=10)
 
-    # Act
     drone.start()
 
-    # Assert
-    mock_detect_seats.assert_called_once()  # Ensure detect_seats was called
-    assert drone.seat_count == 0  # Ensure seat_count remains 0
+    mock_detect_seats.assert_called_once()
+    assert drone.seat_count == 0
 
-@patch('drone.Drone.detect_seats')
+
+@patch.object(Drone, 'detect_seats', return_value=False)
 def test_start_with_invalid_detection(mock_detect_seats):
-    # Arrange
-    mock_detect_seats.return_value = False  # Simulate detection failure
     drone = Drone(drone_id="DRONE002", distance=100, disinfection_time=10)
 
-    # Act
     drone.start()
 
-    # Assert
-    mock_detect_seats.assert_called_once()  # Ensure detect_seats was called
-    assert drone.seat_count == 0  # Ensure seat_count remains 0
+    mock_detect_seats.assert_called_once()
+    assert drone.seat_count == 0
+
 
 # ------------------ Tests for detect_seats ------------------
 
 @patch('drone.YOLO')
 def test_detect_seats_valid(mock_yolo):
-    mock_yolo.return_value = MagicMock()
-    mock_yolo.return_value.return_value = [
-        MagicMock(boxes=MagicMock(cls=MagicMock(cpu=MagicMock(return_value=[0, 0]))))
-    ]
+    mock_cls = MagicMock()
+    mock_cls.cpu.return_value.numpy.return_value = np.array([0, 0])
+
+    mock_boxes = MagicMock()
+    mock_boxes.cls = mock_cls
+
+    mock_result = MagicMock()
+    mock_result.boxes = mock_boxes
+
+    mock_model = MagicMock(return_value=[mock_result])
+    mock_yolo.return_value = mock_model
+
     drone = Drone(drone_id="DRONE001", distance=100, disinfection_time=10)
     result = drone.detect_seats()
+
     assert result is True
-    assert drone.seat_count == 2  # Simulate 2 seats detected
+    assert drone.seat_count == 2
+
 
 @patch('drone.YOLO')
 def test_detect_seats_invalid(mock_yolo):
-    mock_yolo.return_value = MagicMock()
-    mock_yolo.return_value.return_value = [MagicMock(boxes=None)]
+    mock_result = MagicMock()
+    mock_result.boxes = None
+
+    mock_model = MagicMock(return_value=[mock_result])
+    mock_yolo.return_value = mock_model
+
     drone = Drone(drone_id="DRONE002", distance=100, disinfection_time=10)
     result = drone.detect_seats()
+
     assert result is False
-    assert drone.seat_count == 0  # No seats detected
+    assert drone.seat_count == 0
+
 
 # ------------------ Tests for disinfect_seats ------------------
 
 def test_disinfect_seats_valid():
-    # Arrange
     drone = Drone(drone_id="DRONE003", distance=100, disinfection_time=10)
-    drone.seat_count = 3  # Simulate 3 seats detected
+    drone.seat_count = 3
 
-    # Act
-    with patch('time.sleep', return_value=None):  # Mock time.sleep to avoid delays
+    with patch('time.sleep', return_value=None):  # Prevent delay
         drone.disinfect_seats()
 
-    # Assert
-    # Ensure the disinfection process completes without errors
-    assert drone.seat_count == 3  # Seat count remains unchanged
+    assert drone.seat_count == 3
 
 
 def test_disinfect_seats_invalid():
-    # Arrange
     drone = Drone(drone_id="DRONE004", distance=100, disinfection_time=10)
-    drone.seat_count = 0  # No seats detected
+    drone.seat_count = 0
 
-    # Act
     drone.disinfect_seats()
 
-    # Assert
-    # Ensure the method exits early without errors
-    assert drone.seat_count == 0  # Seat count remains 0
+    assert drone.seat_count == 0
 
 
 # ------------------ Tests for num_of_seats ------------------
 
+@patch.object(Drone, 'detect_seats', return_value=True)
 @patch('drone.supabase')
-def test_num_of_seats_valid(mock_supabase):
-    # Arrange
+def test_num_of_seats_valid(mock_supabase, mock_detect_seats):
     mock_supabase.table.return_value.insert.return_value.execute.return_value.status_code = 201
+
     drone = Drone(drone_id="DRONE005", distance=100, disinfection_time=10)
-    drone.seat_count = 5  # Simulate 5 seats detected
+    drone.seat_count = 5
 
-    # Act
     result = drone.num_of_seats()
 
-    # Assert
-    assert result == 5  # Ensure the seat count is returned
-    mock_supabase.table.assert_called_once_with("Report")  # Ensure data is inserted
+    assert result == 5
+    mock_supabase.table.assert_called_once_with("Report")
 
 
+@patch.object(Drone, 'detect_seats', return_value=False)
 @patch('drone.supabase')
-def test_num_of_seats_valid(mock_supabase):
-    # Arrange
-    mock_supabase.table.return_value.insert.return_value.execute.return_value.status_code = 400
+def test_num_of_seats_invalid(mock_supabase, mock_detect_seats):
     drone = Drone(drone_id="DRONE006", distance=100, disinfection_time=10)
-    drone.seat_count = 0  # No seats detected
+    drone.seat_count = 0
 
-    # Act
     result = drone.num_of_seats()
 
-    # Assert
-    assert result == 0  # Ensure the seat count is returned as 0
-    mock_supabase.table.assert_not_called()  # Ensure no data is inserted
+    assert result == 0
+    mock_supabase.table.assert_not_called()
