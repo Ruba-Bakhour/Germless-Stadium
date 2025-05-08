@@ -58,13 +58,7 @@ class Drone:
     
 
     def start(self):
-
-        if self.seat_count <= 0:
-            print(f"Drone {self.drone_id} has an invalid seat count. Aborting operation.")
-            return
-        
         print(f"Drone {self.drone_id} is starting...")
-    
         # Step 1: Detect seats
         print("Detecting seats...")
         if not self.detect_seats():
@@ -84,17 +78,17 @@ class Drone:
         
         
 
-def num_of_seats(self) -> int:
-    if self.detect_seats():
-        data = {
-            "total_seats": self.seat_count,
-            "distance": None,
-            "User-ID": "db4e5bab-60e4-4ec7-9ef4-02aa7cb3aef2",
-            "title": "Report - " + datetime.now().isoformat()
-        }
-        response = supabase.table("Report").insert(data).execute()
-        if response.status_code == 201:
-            print("Data successfully inserted into Supabase.")
-        else:
-            print("Failed to insert data into Supabase.", response)
-    return self.seat_count # Return the seat count 
+    def num_of_seats(self) -> int:
+        if self.detect_seats():
+            data = {
+                "total_seats": self.seat_count,
+                "distance": None,
+                "User-ID": "db4e5bab-60e4-4ec7-9ef4-02aa7cb3aef2",
+                "title": "Report - " + datetime.now().isoformat()
+            }
+            response = supabase.table("Report").insert(data).execute()
+            if response.status_code == 201:
+                print("Data successfully inserted into Supabase.")
+            else:
+                print("Failed to insert data into Supabase.", response)
+        return self.seat_count

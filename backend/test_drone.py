@@ -75,12 +75,12 @@ def test_start_with_invalid_detection(mock_detect_seats):
 def test_detect_seats_valid(mock_yolo):
     mock_yolo.return_value = MagicMock()
     mock_yolo.return_value.return_value = [
-        MagicMock(boxes=MagicMock(cls=MagicMock(cpu=MagicMock(return_value=[0, 0]))))
+        MagicMock(boxes=MagicMock(cls=MagicMock(cpu=MagicMock(return_value=MagicMock(numpy=MagicMock(return_value=[0, 0]))))))
     ]
     drone = Drone(drone_id="DRONE001", distance=100, disinfection_time=10)
     result = drone.detect_seats()
-    assert result is True 
-    assert drone.seat_count == 2  # Assuming 2 seats detected
+    assert result is True
+    assert drone.seat_count == 2  # Simulate 2 seats detected
 
 @patch('drone.YOLO')
 def test_detect_seats_invalid(mock_yolo):
