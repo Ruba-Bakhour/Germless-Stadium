@@ -59,23 +59,24 @@ class Drone:
 
     def start(self):
         print(f"Drone {self.drone_id} is starting...")
+        if self.seat_count <= 0:
+            print(f"Drone {self.drone_id} has an invalid seat count. Aborting operation.")
+            return
         # Step 1: Detect seats
-        print("Detecting seats...")
         if not self.detect_seats():
             print(f"Drone {self.drone_id} could not detect any seats. Aborting operation.")
             return
-    
+        
         # Step 2: Start disinfection process
         print(f"Drone {self.drone_id} detected {self.seat_count} seats. Starting disinfection process...")
         self.disinfect_seats()
-    
-        # Step 3: Complete operation
-        print(f"Drone {self.drone_id} has completed its operation.")
-          
+
+        # Step 3: Complete disinfection
+        print(f"Drone {self.drone_id} has completed the disinfection process.")
+
         # Step 4: Store the seat count in the database
         print("Storing the seat count in the database...")
         self.num_of_seats()
-        
         
 
     def num_of_seats(self) -> int:
