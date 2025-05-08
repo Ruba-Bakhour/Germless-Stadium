@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { supabase } from './supabaseClient';
 import DashboardCard from './DashboardCard';
 import  Header  from './Header';

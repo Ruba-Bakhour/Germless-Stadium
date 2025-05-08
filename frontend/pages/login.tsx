@@ -1,5 +1,3 @@
-'use client';
-
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from './supabaseClient';
@@ -57,8 +55,14 @@ export default function Login() {
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">Login</h2>
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Email</label>
+                <label
+                  className="block text-sm font-medium text-gray-700"
+                  htmlFor="email"
+                >
+                  Email
+                </label>
                 <input
+                  id="email"
                   type="text"
                   className="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:ring-black focus:border-black"
                   placeholder="Enter Email"
@@ -68,8 +72,14 @@ export default function Login() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Password</label>
+                <label
+                  className="block text-sm font-medium text-gray-700"
+                  htmlFor="password"
+                >
+                  Password
+                </label>
                 <input
+                  id="password"
                   type="password"
                   className="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:ring-black focus:border-black"
                   placeholder="Enter password"
