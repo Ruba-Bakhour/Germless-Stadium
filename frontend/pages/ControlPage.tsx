@@ -13,11 +13,8 @@ const ControlPage = () => {
         },
         body: JSON.stringify({ direction }),
       });
-
       if (!response.ok) {
-        throw new Error('Failed to move the drone');
-      }
-
+        throw new Error('Failed to move the drone');}
       const data = await response.json();
       console.log(`Drone moved ${direction}:`, data);
     } catch (error) {

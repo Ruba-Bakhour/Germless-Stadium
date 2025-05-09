@@ -1,5 +1,5 @@
 'use client';
-
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { supabase } from './supabaseClient';
 import router from 'next/router';
@@ -15,34 +15,28 @@ interface Report {
 const ReportsPage = () => {
   const [reports, setReports] = useState<Report[]>([]);
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
-
   useEffect(() => {
+
     const fetchReports = async () => {
       const { data, error } = await supabase.from('Report').select('*');
-
       if (error) {
         console.error('Error fetching reports:', error.message, error.details, error.hint);
       } else {
         setReports(data);
       }
     };
-
-    fetchReports();
-  }, []);
+    fetchReports();}, []);
 
   // Delete Report Function
   const handleDelete = async (reportId: string) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this report?");
     if (!confirmDelete) return;
-
     const { error } = await supabase.from('Report').delete().eq('id', reportId);
-
     if (error) {
       console.error("Error deleting report:", error.message);
     } else {
       // Remove the deleted report from the state
       setReports(reports.filter(report => report.id !== reportId));
-
       // Clear the selected report if it was deleted
       if (selectedReport && selectedReport.id === reportId) {
         setSelectedReport(null);
@@ -58,7 +52,6 @@ const ReportsPage = () => {
       Total Ready Seats: ${report.total_seats} seats
       Total Distance: ${report.distance}
     `;
-
     const blob = new Blob([reportData], { type: 'text/plain' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
