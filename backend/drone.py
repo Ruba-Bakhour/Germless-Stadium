@@ -1,6 +1,7 @@
-from datetime import date 
+from datetime import date, datetime 
 from ultralytics import YOLO  
 from supabase import create_client, Client  
+import time
 
 # Supabase client
 url = "https://umblwntwmhxwempxdrfm.supabase.co"
@@ -13,7 +14,7 @@ class Drone:
         self.distance = distance
         self.disinfection_time = disinfection_time
         self.seat_count = 0
-        self.model = YOLO("C:/Users/lojai/Germless-Stadium/backend/trainYolo/runs/detect/train5/weights/last.pt")  # Load a pre-trained YOLO model (replace with your model path) 
+        self.model = YOLO("C:/Users/L/Germless-Stadium/backend/trainYolo/runs/detect/train5/weights/last.pt")  # Load a pre-trained YOLO model (replace with your model path) 
 
 
     def disinfect_seats(self):
@@ -35,10 +36,10 @@ class Drone:
         print(f"Drone {self.drone_id} is detecting seats...")
 
     # Run YOLO on the video
-        results = self.model("C:/Users/lojai/Germless-Stadium/backend/trainYolo/test/oM2J9YjeIzPvYfqHxn5gSAUBDpeViACXzQAgqA.mp4")
+        results = self.model("C:/Users/L/Germless-Stadium/backend/trainYolo/test/video5796392827940247650.mp4")
 
         total_chairs = 0
-        chair_class_id = 0  # IMPORTANT: change if your "chair" class ID is different
+        chair_class_id = 0  
 
         for result in results:
             if result.boxes is not None:
@@ -59,45 +60,30 @@ class Drone:
 
     def start(self):
         print(f"Drone {self.drone_id} is starting...")
-    
-        # Step 1: Detect seats
-        print("Detecting seats...")
+
         if not self.detect_seats():
-            print(f"Drone {self.drone_id} could not detect any seats. Aborting operation.")
+            print(f"Drone {self.drone_id} failed to detect seats. Aborting mission.")
             return
-    
-        # Step 2: Start disinfection process
-        print(f"Drone {self.drone_id} detected {self.seat_count} seats. Starting disinfection process...")
+
+        if self.seat_count < 0:
+            print(f"Drone {self.drone_id} has an invalid seat count. Aborting operation.")
+            return
+
         self.disinfect_seats()
-    
-        # Step 3: Complete operation
-        print(f"Drone {self.drone_id} has completed its operation.")
-          
-        # Step 4: Store the seat count in the database
-        print("Storing the seat count in the database...")
         self.num_of_seats()
-        
         
 
     def num_of_seats(self) -> int:
-        # Call the detect_seats method to get the number of seats detected
         if self.detect_seats():
-            print(f"Drone {self.drone_id} has processed {self.seat_count} seats.")
-
             data = {
                 "total_seats": self.seat_count,
-                "distance": None,  # Placeholder for distance
-                "User-ID": "db4e5bab-60e4-4ec7-9ef4-02aa7cb3aef2",  
-                "title": "Report - "+datetime.now().isoformat()  
+                "distance": None,
+                "User-ID": "db4e5bab-60e4-4ec7-9ef4-02aa7cb3aef2",
+                "title": "Report - " + datetime.now().isoformat()
             }
             response = supabase.table("Report").insert(data).execute()
-
-            if  response.status_code == 201:
+            if response.status_code == 201:
                 print("Data successfully inserted into Supabase.")
             else:
                 print("Failed to insert data into Supabase.", response)
-
-        else:
-            print(f"Drone {self.drone_id} could not detect any seats.")
-
-        return self.seat_count  # Corrected indentation
+        return self.seat_count
